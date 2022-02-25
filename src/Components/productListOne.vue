@@ -7,27 +7,37 @@
               <span> ${{ product.price }} </span>
           </li>
       </ul>
-      <button v-on:click="reducePrice">Reduce Price</button>
+      <input type="text" v-model="amount">
+      <button @click="reducePrice(amount)">Reduce Price</button>
   </div>
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex'
 export default {
+    data() {
+        return {
+            amount: 1,
+        }
+    },
     computed: {
         products() {
             return this.$store.state.products;
         },
-        saleProducts() {
-            return this.$store.getters.saleProducts;
-        }
+        // saleProducts() {
+        //     return this.$store.getters.saleProducts;
+        // },
+        ...mapGetters([
+            'saleProducts',
+        ])
     },
     methods: {
-        reducePrice() {
-            // this.$store.state.products.map(product => {
-            //     product.price -= 1;
-            // })
-            this.$store.commit("reducePrice")
-        }
+        // reducePrice(amount) {
+        //     this.$store.dispatch("reducePrice", amount)
+        // },
+        ...mapActions([
+            'reducePrice',
+        ])
     }
 }
 </script>
